@@ -46,20 +46,28 @@ export default function SubscribeModal() {
   const [open, setOpen] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
-  // Initial 12s delay timer. Runs once per full page load.
+  // Initial timer. Runs once per full page load.
+  // Rules:
+  // - Subscribed: never show.
+  // - Previously dismissed (hard-reload to a new page): show quickly on this
+  //   new page and clear the dismissed flag.
+  // - Fresh visitor: show 12 seconds after page load.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (isSubscribed()) {
       setInitialized(true);
       return;
     }
+    if (getDismissed()) {
+      removeLS(DISMISSED_KEY);
+      const t = setTimeout(() => {
+        if (!isSubscribed()) setOpen(true);
+        setInitialized(true);
+      }, 800);
+      return () => clearTimeout(t);
+    }
     const t = setTimeout(() => {
-      if (!isSubscribed()) {
-        // If a dismissal already exists from prior nav-only session,
-        // clear it so it doesn't retrigger loop.
-        removeLS(DISMISSED_KEY);
-        setOpen(true);
-      }
+      if (!isSubscribed()) setOpen(true);
       setInitialized(true);
     }, DELAY_MS);
     return () => clearTimeout(t);

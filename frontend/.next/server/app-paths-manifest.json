@@ -1,12 +1,5 @@
 {
   "/page": "app/page.js",
   "/category/[slug]/page": "app/category/[slug]/page.js",
-  "/category/[slug]/[postSlug]/page": "app/category/[slug]/[postSlug]/page.js",
-  "/about/page": "app/about/page.js",
-  "/privacy-policy/page": "app/privacy-policy/page.js",
-  "/disclaimer/page": "app/disclaimer/page.js",
-  "/terms/page": "app/terms/page.js",
-  "/report-bug/page": "app/report-bug/page.js",
-  "/robots.txt/route": "app/robots.txt/route.js",
-  "/sitemap.xml/[[...__metadata_id__]]/route": "app/sitemap.xml/[[...__metadata_id__]]/route.js"
+  "/about/page": "app/about/page.js"
 }
