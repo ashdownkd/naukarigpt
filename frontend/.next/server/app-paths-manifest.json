@@ -1,5 +1,8 @@
 {
   "/page": "app/page.js",
   "/category/[slug]/page": "app/category/[slug]/page.js",
-  "/about/page": "app/about/page.js"
+  "/about/page": "app/about/page.js",
+  "/category/[slug]/[postSlug]/page": "app/category/[slug]/[postSlug]/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/sitemap.xml/[[...__metadata_id__]]/route": "app/sitemap.xml/[[...__metadata_id__]]/route.js"
 }

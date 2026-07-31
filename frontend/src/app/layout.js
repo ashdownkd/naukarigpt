@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { SITE } from "@/data/site";
 import SiteChrome from "@/components/site/SiteChrome";
 import OrganizationJsonLd from "@/components/site/OrganizationJsonLd";
+import AdSenseScript from "@/components/site/AdSenseScript";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
@@ -79,6 +80,7 @@ export default function RootLayout({ children }) {
       <body className="antialiased">
         <div className="noise-overlay" aria-hidden="true" />
         <OrganizationJsonLd />
+        <AdSenseScript />
         <SiteChrome>{children}</SiteChrome>
         <Toaster theme="dark" richColors position="top-right" />
       </body>

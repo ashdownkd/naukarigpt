@@ -8,27 +8,78 @@ const d = (offset) => {
   return t.toISOString();
 };
 
+// Map tags -> department label
+const DEPT_MAP = [
+  { tag: "ssc", label: "SSC" },
+  { tag: "upsc", label: "UPSC" },
+  { tag: "railway", label: "Railway" },
+  { tag: "banking", label: "Banking" },
+  { tag: "insurance", label: "Insurance" },
+  { tag: "police", label: "Police / Defence" },
+  { tag: "defence", label: "Police / Defence" },
+  { tag: "teaching", label: "Teaching" },
+  { tag: "medical", label: "Medical" },
+  { tag: "engineering", label: "Engineering" },
+  { tag: "isro", label: "Science & Research" },
+  { tag: "science", label: "Science & Research" },
+  { tag: "mba", label: "Management" },
+  { tag: "law", label: "Law" },
+  { tag: "it", label: "Private / IT" },
+  { tag: "private", label: "Private / IT" },
+  { tag: "loan", label: "Finance / Loans" },
+  { tag: "school", label: "School" },
+];
+
+const inferDepartment = (tags = []) => {
+  for (const { tag, label } of DEPT_MAP) if (tags.includes(tag)) return label;
+  return "General";
+};
+
+// Map keywords -> qualification level
+const inferQualification = (eligibility = "", tags = []) => {
+  const e = (eligibility || "").toLowerCase();
+  if (/post\s*graduate|master|m\.?tech|m\.?sc|mba|pg/.test(e) || tags.includes("pg"))
+    return "Post Graduate";
+  if (/10\+2|12th|intermediate|higher secondary|senior secondary/.test(e))
+    return "12th Pass";
+  if (/10th|matric|matriculation/.test(e)) return "10th Pass";
+  if (/diploma|iti/.test(e)) return "Diploma / ITI";
+  if (/graduate|bachelor|b\.?tech|b\.?sc|b\.?a|b\.?com|degree/.test(e))
+    return "Graduate";
+  return "Any";
+};
+
 const mk = (
   slug,
   category,
   title,
   org,
   extra = {}
-) => ({
-  id: `${category}-${slug}`,
-  slug,
-  category,
-  title,
-  org,
-  location: extra.location || "All India",
-  date: d(extra.dateOffset ?? -2),
-  lastDate: d(extra.lastOffset ?? 21),
-  excerpt:
-    extra.excerpt ||
-    `${org} has officially released the ${title} notification. Read eligibility, important dates, application fee, selection process and apply online before the last date.`,
-  content:
-    extra.content ||
-    `<p><strong>${org}</strong> has officially released the notification for <strong>${title}</strong>. Interested and eligible candidates can go through the complete notification below and submit their online application form before the last date.</p>
+) => {
+  const tags = extra.tags || [category];
+  return {
+    id: `${category}-${slug}`,
+    slug,
+    category,
+    title,
+    org,
+    location: extra.location || "All India",
+    state: extra.state || extra.location || "All India",
+    department: extra.department || inferDepartment(tags),
+    qualification:
+      extra.qualification ||
+      inferQualification(
+        extra.eligibility || "Graduate from a recognised university",
+        tags
+      ),
+    date: d(extra.dateOffset ?? -2),
+    lastDate: d(extra.lastOffset ?? 21),
+    excerpt:
+      extra.excerpt ||
+      `${org} has officially released the ${title} notification. Read eligibility, important dates, application fee, selection process and apply online before the last date.`,
+    content:
+      extra.content ||
+      `<p><strong>${org}</strong> has officially released the notification for <strong>${title}</strong>. Interested and eligible candidates can go through the complete notification below and submit their online application form before the last date.</p>
 <p>Below are the key highlights of this notification — please read the official PDF carefully before submitting your application.</p>
 <h3>Overview</h3>
 <ul><li>Organization: ${org}</li><li>Location: ${extra.location || "All India"}</li><li>Category: ${category}</li></ul>
@@ -36,23 +87,24 @@ const mk = (
 <p>Visit the official portal, register with a valid email & mobile number, fill the application form, upload documents and pay the application fee before the last date.</p>
 <h3>Important Note</h3>
 <p>NaukariGPT provides curated links only. Please verify all details on the official website before applying.</p>`,
-  applyLink: extra.applyLink || "https://example.com/apply",
-  applyLinkLabel: extra.applyLinkLabel || "Apply Online",
-  officialLink: extra.officialLink || "https://example.com/notification.pdf",
-  tags: extra.tags || [category],
-  vacancies: extra.vacancies || Math.floor(Math.random() * 4000) + 200,
-  eligibility: extra.eligibility || "Graduate from a recognised university",
-  fee: extra.fee || "General/OBC: Rs. 100 | SC/ST/PwD: Nil",
-  ageLimit: extra.ageLimit || "18 – 32 years (age relaxation as per rules)",
-  importantDates: extra.importantDates || [
-    { label: "Notification Release", value: d(extra.dateOffset ?? -2).split("T")[0] },
-    { label: "Online Apply Start", value: d((extra.dateOffset ?? -2) + 1).split("T")[0] },
-    { label: "Online Apply Last Date", value: d(extra.lastOffset ?? 21).split("T")[0] },
-    { label: "Exam Date", value: d((extra.lastOffset ?? 21) + 25).split("T")[0] },
-  ],
-  featured: !!extra.featured,
-  isNew: (extra.dateOffset ?? -2) >= -3,
-});
+    applyLink: extra.applyLink || "https://example.com/apply",
+    applyLinkLabel: extra.applyLinkLabel || "Apply Online",
+    officialLink: extra.officialLink || "https://example.com/notification.pdf",
+    tags,
+    vacancies: extra.vacancies || Math.floor(Math.random() * 4000) + 200,
+    eligibility: extra.eligibility || "Graduate from a recognised university",
+    fee: extra.fee || "General/OBC: Rs. 100 | SC/ST/PwD: Nil",
+    ageLimit: extra.ageLimit || "18 – 32 years (age relaxation as per rules)",
+    importantDates: extra.importantDates || [
+      { label: "Notification Release", value: d(extra.dateOffset ?? -2).split("T")[0] },
+      { label: "Online Apply Start", value: d((extra.dateOffset ?? -2) + 1).split("T")[0] },
+      { label: "Online Apply Last Date", value: d(extra.lastOffset ?? 21).split("T")[0] },
+      { label: "Exam Date", value: d((extra.lastOffset ?? 21) + 25).split("T")[0] },
+    ],
+    featured: !!extra.featured,
+    isNew: (extra.dateOffset ?? -2) >= -3,
+  };
+};
 
 export const POSTS = [
   // JOBS
@@ -150,6 +202,96 @@ export const getPostsByCategory = (categorySlug) =>
   POSTS.filter((p) => p.category === categorySlug).sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
+
+// ---- Filter helpers ---------------------------------------------------------
+
+export const FILTER_OPTIONS = {
+  state: [
+    "All India",
+    "Delhi",
+    "Uttar Pradesh",
+    "Rajasthan",
+    "Bihar",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Karnataka",
+    "Tamil Nadu",
+    "West Bengal",
+    "Gujarat",
+    "Haryana",
+    "Punjab",
+    "Odisha",
+    "Kerala",
+    "Assam",
+    "Telangana",
+    "Andhra Pradesh",
+  ],
+  department: [
+    "SSC",
+    "UPSC",
+    "Railway",
+    "Banking",
+    "Insurance",
+    "Police / Defence",
+    "Teaching",
+    "Medical",
+    "Engineering",
+    "Science & Research",
+    "Management",
+    "Law",
+    "Private / IT",
+    "Finance / Loans",
+    "School",
+    "General",
+  ],
+  qualification: [
+    "10th Pass",
+    "12th Pass",
+    "Diploma / ITI",
+    "Graduate",
+    "Post Graduate",
+    "Any",
+  ],
+};
+
+// Sprinkle some state variety for realistic filtering.
+const STATE_OVERRIDES = {
+  "jobs-delhi-police-constable": "Delhi",
+  "latest-notifications-reet-notification": "Rajasthan",
+  "results-cbse-10th-result": "Delhi",
+  "results-cbse-12th-result": "Delhi",
+  "admission-du-ug-admission": "Delhi",
+  "admission-jnu-ug-admission": "Delhi",
+  "admission-bhu-ug": "Uttar Pradesh",
+  "admission-nit-bhu-mtech": "Uttar Pradesh",
+  "admit-card-reet-admit-card": "Rajasthan",
+  "answer-key-reet-answer-key": "Rajasthan",
+  "admission-nlsiu-clat": "Karnataka",
+  "admission-iim-pgp-admission": "Karnataka",
+  "admission-aiims-mbbs": "Delhi",
+};
+
+for (const p of POSTS) {
+  if (STATE_OVERRIDES[p.id]) {
+    p.state = STATE_OVERRIDES[p.id];
+    p.location = STATE_OVERRIDES[p.id];
+  }
+}
+
+// Filter posts by an object like { state, department, qualification }.
+// Any value equal to "" or "all" is treated as no-filter.
+export const filterPosts = (posts, filters = {}) => {
+  const norm = (v) => (v == null || v === "all" ? "" : String(v));
+  const st = norm(filters.state);
+  const dept = norm(filters.department);
+  const qual = norm(filters.qualification);
+  return posts.filter((p) => {
+    if (st && p.state !== st) return false;
+    if (dept && p.department !== dept) return false;
+    if (qual && p.qualification !== qual) return false;
+    return true;
+  });
+};
 
 export const getPostBySlug = (categorySlug, postSlug) =>
   POSTS.find((p) => p.category === categorySlug && p.slug === postSlug) || null;

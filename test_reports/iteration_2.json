@@ -1,0 +1,97 @@
+{
+  "summary": "Completed comprehensive frontend testing of NaukariGPT.com for two new features: Category Filters and Ad Slots. Department and Qualification filters work correctly, but State filter is completely broken (client-side Select component issue). All ad slots render correctly with proper placeholders. Regression tests mostly passed except chat widget.",
+  
+  "backend_issues": {},
+  
+  "frontend_issues": {
+    "critical_bugs": [
+      {
+        "component": "FilterBar - State Filter",
+        "issue": "State filter dropdown options are not clickable / onValueChange handler not triggered. Clicking 'Delhi', 'All India', or any state option does NOT update the URL or apply the filter.",
+        "impact": "Users cannot filter posts by state, which is a core feature requirement. Blocks state-based filtering completely.",
+        "fix_priority": "CRITICAL",
+        "evidence": "Tested on /category/jobs, /category/admission. Department filter works (?department=SSC updates URL), Qualification filter works (?qualification=Graduate updates URL), but State filter fails (URL remains unchanged after clicking options). Direct URL navigation with ?state=Delhi DOES work, proving backend logic is correct - this is a client-side Select component issue.",
+        "affected_pages": ["/category/jobs", "/category/admit-card", "/category/results", "/category/admission", "/category/scholarships"],
+        "root_cause": "Radix UI Select component's onValueChange handler not firing for state filter specifically. Both state and department filters use identical FilterSelect component structure, but only state filter fails. Likely z-index/overlay issue or event propagation problem."
+      },
+      {
+        "component": "FilterBar - Combined Filters",
+        "issue": "When applying multiple filters (e.g., State + Department), only the Department filter is applied. State filter is ignored.",
+        "impact": "Users cannot narrow results using multiple filter criteria simultaneously.",
+        "fix_priority": "CRITICAL",
+        "evidence": "Attempted to filter /category/jobs with state=Delhi and department=Police / Defence. Only ?department=Police+%2F+Defence appeared in URL. State filter was not applied.",
+        "related_to": "State filter bug above"
+      }
+    ],
+    "ui_bugs": [
+      {
+        "component": "Chat Widget",
+        "issue": "Chat widget button (data-testid='chat-widget-open-button') is present but clicking it does not open the chat widget. Widget remains invisible after click.",
+        "fix_priority": "MEDIUM",
+        "affected_pages": ["All pages"],
+        "regression": true
+      }
+    ],
+    "integration_issues": []
+  },
+  
+  "passed_tests": [
+    "Home page loads successfully with hero section and category cards",
+    "Ad slot inFeed found on home page after 6th post with correct placeholder",
+    "Ad slot sidebar found on home page with correct placeholder",
+    "FilterBar component renders on all category pages (/category/jobs, /category/admit-card, /category/results)",
+    "All three filter dropdowns present (state, department, qualification) with correct data-testid attributes",
+    "Ad slot banner found at bottom of category pages",
+    "Ad slot inFeed found on category pages after 6th post (when 7+ posts exist)",
+    "Department filter works correctly: URL updates to ?department=SSC, Clear button appears, filter chip shows 'Dept: SSC', result count updates to '1 of 8 posts'",
+    "Qualification filter works correctly: URL updates to ?qualification=Graduate",
+    "Clear filter button works: URL resets to category path without query params, Clear button disappears",
+    "Empty state (data-testid='filter-empty-state') displays correctly when no posts match filters (tested with ?state=Assam&department=Railway on scholarships)",
+    "Deep-linking with query params works: visiting /category/jobs?department=SSC directly applies filter immediately",
+    "Ad slot inArticle found on post detail page (/category/jobs/ssc-cgl-2025)",
+    "Ad slot sidebar found on post detail page below Apply CTA",
+    "Ad placeholder content correct: shows 'ADVERTISEMENT' label and 'Ad space — configure NEXT_PUBLIC_ADSENSE_CLIENT & the [slot] slot to enable' hint text",
+    "Social share section ('Share this post') found on post detail page",
+    "/robots.txt returns 200 status",
+    "/sitemap.xml returns 200 status",
+    "No JavaScript console errors detected during testing",
+    "Subscribe popup appears after 12 seconds on fresh visit (localStorage cleared)",
+    "Search input field present and functional on home page"
+  ],
+  
+  "test_report_links": [],
+  
+  "success_percentage": {
+    "frontend": "85%",
+    "filters": "67% (2 of 3 filters working)",
+    "ad_slots": "100%",
+    "regression": "90%"
+  },
+  
+  "updated_files": [],
+  
+  "action_item_for_main_agent": [
+    {
+      "priority": "CRITICAL",
+      "task": "Fix State filter in FilterBar component",
+      "details": "The state filter Select component's onValueChange handler is not being triggered when options are clicked. Department and Qualification filters work fine with identical code structure. Investigation shows: (1) State dropdown opens correctly and displays all options, (2) Clicking options does nothing - URL not updated, (3) Direct URL navigation with ?state=Delhi WORKS, proving backend logic is correct, (4) Both Select components have identical Radix UI attributes. Root cause is likely a z-index/overlay issue, event propagation problem, or React hydration mismatch specific to the first filter dropdown. Check: (a) z-index conflicts, (b) event handlers in FilterBar.jsx line 67-73, (c) Radix UI Select portal rendering, (d) CSS overlays blocking clicks.",
+      "file": "/app/frontend/src/components/site/FilterBar.jsx",
+      "test_to_verify": "Visit /category/jobs, click state filter, select 'Delhi', verify URL updates to ?state=Delhi and filter chip appears"
+    },
+    {
+      "priority": "MEDIUM",
+      "task": "Fix Chat Widget not opening",
+      "details": "Chat widget button exists (data-testid='chat-widget-open-button') but clicking it does not open the widget. This is a regression - the button should open a chat interface.",
+      "test_to_verify": "Click chat widget button in bottom-right corner, verify chat interface opens"
+    },
+    {
+      "priority": "LOW",
+      "task": "Verify combined filters work after state filter is fixed",
+      "details": "Once state filter is fixed, test that multiple filters can be applied simultaneously (e.g., ?state=Delhi&department=Police%20/%20Defence)",
+      "test_to_verify": "Apply state=Delhi and department=Police / Defence, verify both appear in URL and results are filtered correctly"
+    }
+  ],
+  
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_test_itself": false
+}

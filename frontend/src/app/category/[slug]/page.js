@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CATEGORIES, getCategoryBySlug } from "@/data/site";
 import { getPostsByCategory } from "@/data/demo";
-import PostCard from "@/components/site/PostCard";
+import CategoryListClient from "@/components/site/CategoryListClient";
+import AdSlot from "@/components/site/AdSlot";
 import Breadcrumb from "@/components/site/Breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -56,17 +57,13 @@ export default function CategoryPage({ params }) {
         </div>
       </header>
 
-      <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {posts.map((p) => (
-          <PostCard key={p.id} post={p} />
-        ))}
+      <div className="mt-8">
+        <CategoryListClient posts={posts} />
       </div>
 
-      {posts.length === 0 && (
-        <div className="mt-8 rounded-[var(--radius-lg)] card-elev p-8 text-center">
-          <p className="text-muted-foreground">No posts here yet — check back soon.</p>
-        </div>
-      )}
+      <div className="mt-10">
+        <AdSlot slot="banner" label="Advertisement" />
+      </div>
 
       <div className="mt-10 flex items-center justify-between rounded-[var(--radius-lg)] card-elev p-5">
         <div>

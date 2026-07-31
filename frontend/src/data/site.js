@@ -14,6 +14,16 @@ export const SITE = {
   email: "contact@naukarigpt.com",
   wpUrl: process.env.NEXT_PUBLIC_WP_URL || "",
   formspree: process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "",
+  adsense: {
+    client: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "",
+    // Optional named slots — if empty we use a default responsive slot.
+    slots: {
+      inFeed: process.env.NEXT_PUBLIC_ADSENSE_SLOT_INFEED || "",
+      inArticle: process.env.NEXT_PUBLIC_ADSENSE_SLOT_INARTICLE || "",
+      sidebar: process.env.NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR || "",
+      banner: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BANNER || "",
+    },
+  },
 };
 
 export const CATEGORIES = [

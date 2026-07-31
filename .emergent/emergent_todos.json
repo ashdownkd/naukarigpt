@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Extend demo.js with department + qualification + state fields",
+    "status": "completed"
+  },
+  {
+    "content": "Create FilterBar component",
+    "status": "completed"
+  },
+  {
+    "content": "Convert category page to filterable client-side listing",
+    "status": "completed"
+  },
+  {
+    "content": "Create AdSlot component",
+    "status": "completed"
+  },
+  {
+    "content": "Add AdSense script loader in layout",
+    "status": "completed"
+  },
+  {
+    "content": "Insert Ad blocks (category, post, home)",
+    "status": "completed"
+  },
+  {
+    "content": "Update .env.local and site config",
+    "status": "completed"
+  },
+  {
+    "content": "Verify build compiles and screenshot new UI",
+    "status": "in_progress"
+  },
+  {
+    "content": "Run testing_agent_v3 to verify filters + ads",
+    "status": "pending"
+  }
+]

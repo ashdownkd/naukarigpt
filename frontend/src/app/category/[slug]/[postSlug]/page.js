@@ -10,6 +10,7 @@ import StickyMobileApplyBar from "@/components/site/StickyMobileApplyBar";
 import SocialShareBar from "@/components/site/SocialShareBar";
 import ArticleJsonLd from "@/components/site/ArticleJsonLd";
 import PostCard from "@/components/site/PostCard";
+import AdSlot from "@/components/site/AdSlot";
 import { Calendar, MapPin, Clock } from "lucide-react";
 
 export async function generateStaticParams() {
@@ -131,6 +132,10 @@ export default function PostPage({ params }) {
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
+          <div className="mt-8">
+            <AdSlot slot="inArticle" label="Advertisement" />
+          </div>
+
           <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[var(--radius-lg)] card-elev p-5">
             <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               Share this post
@@ -158,8 +163,9 @@ export default function PostPage({ params }) {
         </article>
 
         <aside className="lg:col-span-4">
-          <div className="sticky top-20">
+          <div className="sticky top-20 space-y-4">
             <ApplyCTA post={post} />
+            <AdSlot slot="sidebar" label="Advertisement" />
           </div>
         </aside>
       </div>

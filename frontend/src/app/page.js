@@ -3,6 +3,7 @@ import CategoryBento from "@/components/site/CategoryBento";
 import PostCard from "@/components/site/PostCard";
 import TrendingList from "@/components/site/TrendingList";
 import Ticker from "@/components/site/Ticker";
+import AdSlot from "@/components/site/AdSlot";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -56,14 +57,23 @@ export default function Home() {
               </Button>
             </div>
             <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
-              {latest.map((p) => (
-                <PostCard key={p.id} post={p} />
+              {latest.map((p, i) => (
+                <div key={p.id} className="contents">
+                  <PostCard post={p} />
+                  {i === 5 && (
+                    <div className="md:col-span-2">
+                      <AdSlot slot="inFeed" label="Sponsored" />
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
 
           <div className="space-y-6 lg:col-span-4">
             <TrendingList posts={trending} />
+
+            <AdSlot slot="sidebar" label="Advertisement" />
 
             <aside className="rounded-[var(--radius-lg)] card-elev p-5">
               <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
