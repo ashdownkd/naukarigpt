@@ -1,0 +1,95 @@
+import Hero from "@/components/site/Hero";
+import CategoryBento from "@/components/site/CategoryBento";
+import PostCard from "@/components/site/PostCard";
+import TrendingList from "@/components/site/TrendingList";
+import Ticker from "@/components/site/Ticker";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { CATEGORIES } from "@/data/site";
+import {
+  getFeaturedPosts,
+  getLatestPosts,
+  getTrendingPosts,
+  getPostsByCategory,
+  POSTS,
+} from "@/data/demo";
+
+export const metadata = {
+  title: "Latest Jobs, Results & Admit Cards — NaukariGPT",
+  description:
+    "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys — curated daily on NaukariGPT.",
+};
+
+export default function Home() {
+  const latest = getLatestPosts(12);
+  const featured = getFeaturedPosts(6);
+  const trending = getTrendingPosts(6);
+
+  const counts = CATEGORIES.reduce((acc, c) => {
+    acc[c.slug] = getPostsByCategory(c.slug).length;
+    return acc;
+  }, {});
+
+  return (
+    <>
+      <Hero latestCount={POSTS.length} />
+      <Ticker items={featured} />
+      <CategoryBento counts={counts} />
+
+      <section className="container-wide pb-12">
+        <div className="grid gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                  Feed
+                </p>
+                <h2 className="font-display mt-1 text-2xl sm:text-3xl font-semibold tracking-tight">
+                  Latest across categories
+                </h2>
+              </div>
+              <Button asChild variant="ghost" size="sm" data-testid="home-view-all-jobs">
+                <Link href="/category/jobs">
+                  All jobs <ArrowRight className="ml-1.5 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+              {latest.map((p) => (
+                <PostCard key={p.id} post={p} />
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-6 lg:col-span-4">
+            <TrendingList posts={trending} />
+
+            <aside className="rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Quick access
+              </p>
+              <h3 className="font-display mt-1 text-base font-semibold">Popular tools</h3>
+              <ul className="mt-3 space-y-2">
+                {getPostsByCategory("tools")
+                  .slice(0, 5)
+                  .map((t) => (
+                    <li key={t.id}>
+                      <Link
+                        href={`/category/${t.category}/${t.slug}`}
+                        data-testid={`home-tool-${t.slug}`}
+                        className="flex items-center justify-between rounded-md border border-transparent bg-background/40 px-3 py-2 text-sm hover:border-border/70"
+                      >
+                        <span className="line-clamp-1">{t.title}</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
