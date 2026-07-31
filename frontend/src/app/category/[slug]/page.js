@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import { CATEGORIES, getCategoryBySlug } from "@/data/site";
 import { getPostsByCategory } from "@/data/demo";
@@ -58,7 +59,9 @@ export default function CategoryPage({ params }) {
       </header>
 
       <div className="mt-8">
-        <CategoryListClient posts={posts} />
+        <Suspense fallback={null}>
+          <CategoryListClient posts={posts} />
+        </Suspense>
       </div>
 
       <div className="mt-10">
