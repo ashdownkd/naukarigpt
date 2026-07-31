@@ -34,7 +34,9 @@ export default function FilterBar({ totalCount = 0, resultCount = 0 }) {
   );
 
   const update = (key) => (val) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const currentSearch =
+      typeof window !== "undefined" ? window.location.search : "";
+    const params = new URLSearchParams(currentSearch);
     if (val === ALL || val === "") params.delete(key);
     else params.set(key, val);
     const q = params.toString();

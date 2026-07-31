@@ -71,7 +71,7 @@ export default function ChatWidget() {
         aria-label="Open chat"
         onClick={() => setOpen(true)}
         data-testid="chat-widget-open-button"
-        className="fixed bottom-4 right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-elev-2)] hover:shadow-[var(--shadow-glow-blue)] transition-shadow"
+        className="fixed bottom-4 right-4 z-[60] grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-elev-2)] hover:shadow-[var(--shadow-glow-blue)] transition-shadow"
       >
         <MessageSquare className="h-6 w-6" />
       </button>
@@ -85,7 +85,7 @@ export default function ChatWidget() {
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             data-testid="chat-widget-panel"
-            className="fixed bottom-4 right-4 z-50 flex h-[70vh] max-h-[560px] w-[92vw] sm:w-[380px] flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/90 backdrop-blur shadow-[var(--shadow-elev-2)]"
+            className="fixed bottom-4 right-4 z-[70] flex h-[70vh] max-h-[560px] w-[92vw] sm:w-[380px] flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/90 backdrop-blur shadow-[var(--shadow-elev-2)]"
           >
             <div className="flex items-center justify-between border-b border-border/70 bg-background/50 px-4 py-3">
               <div className="flex items-center gap-2">

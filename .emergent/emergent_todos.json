@@ -29,10 +29,14 @@
   },
   {
     "content": "Verify build compiles and screenshot new UI",
-    "status": "in_progress"
+    "status": "completed"
   },
   {
-    "content": "Run testing_agent_v3 to verify filters + ads",
-    "status": "pending"
+    "content": "Fix filter stale closure + chat z-index issues from testing agent",
+    "status": "completed"
+  },
+  {
+    "content": "Re-run testing_agent_v3 to verify filters + ads + chat regression fix",
+    "status": "completed"
   }
 ]
