@@ -57,7 +57,7 @@ export default function CategoryBento({ counts = {} }) {
                   <Icon className="h-4.5 w-4.5" />
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {counts[c.slug] || 8}+ posts
+                  {counts[c.slug] ?? 0} posts
                 </span>
                 <ArrowUpRight className="ml-auto h-4 w-4 text-muted-foreground group-hover:text-primary" />
               </div>
