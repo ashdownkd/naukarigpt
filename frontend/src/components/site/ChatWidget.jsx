@@ -7,7 +7,8 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { searchPosts } from "@/data/demo";
+import { searchPosts } from "@/lib/search";
+import { useAllPosts } from "@/lib/useAllPosts";
 
 const SUGGESTIONS = [
   "SSC CGL 2025",
@@ -19,6 +20,7 @@ const SUGGESTIONS = [
 ];
 
 export default function ChatWidget() {
+  const posts = useAllPosts();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [messages, setMessages] = useState([
@@ -41,7 +43,7 @@ export default function ChatWidget() {
   const submit = (text) => {
     const query = (text ?? q).trim();
     if (!query) return;
-    const results = searchPosts(query, 4);
+    const results = searchPosts(posts, query, 4);
     setMessages((prev) => [
       ...prev,
       { role: "user", text: query },
