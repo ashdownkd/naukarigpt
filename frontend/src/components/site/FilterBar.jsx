@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Filter, X } from "lucide-react";
-import { FILTER_OPTIONS } from "@/lib/posts";
+import { FILTER_OPTIONS } from "@/lib/postFilters";
 
 const ALL = "all";
 
