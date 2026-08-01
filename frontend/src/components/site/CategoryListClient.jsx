@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import PostCard from "@/components/site/PostCard";
 import AdSlot from "@/components/site/AdSlot";
 import FilterBar from "@/components/site/FilterBar";
-import { filterPosts } from "@/lib/posts";
+import { filterPosts } from "@/lib/postFilters";
 import { Info } from "lucide-react";
 
 export default function CategoryListClient({ posts = [] }) {
