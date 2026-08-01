@@ -13,8 +13,8 @@ import {
   getLatestPosts,
   getTrendingPosts,
   getPostsByCategory,
-  POSTS,
-} from "@/data/demo";
+  getAllPosts,
+} from "@/lib/posts";
 
 export const metadata = {
   title: "Latest Jobs, Results & Admit Cards — NaukariGPT",
@@ -22,19 +22,23 @@ export const metadata = {
     "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys — curated daily on NaukariGPT.",
 };
 
-export default function Home() {
-  const latest = getLatestPosts(12);
-  const featured = getFeaturedPosts(6);
-  const trending = getTrendingPosts(6);
+export default async function Home() {
+  const [latest, featured, trending, toolPosts, allPosts] = await Promise.all([
+    getLatestPosts(12),
+    getFeaturedPosts(6),
+    getTrendingPosts(6),
+    getPostsByCategory("tools"),
+    getAllPosts(),
+  ]);
 
   const counts = CATEGORIES.reduce((acc, c) => {
-    acc[c.slug] = getPostsByCategory(c.slug).length;
+    acc[c.slug] = allPosts.filter((p) => p.category === c.slug).length;
     return acc;
   }, {});
 
   return (
     <>
-      <Hero latestCount={POSTS.length} />
+      <Hero latestCount={allPosts.length} />
       <Ticker items={featured} />
       <CategoryBento counts={counts} />
 
@@ -81,7 +85,7 @@ export default function Home() {
               </p>
               <h3 className="font-display mt-1 text-base font-semibold">Popular tools</h3>
               <ul className="mt-3 space-y-2">
-                {getPostsByCategory("tools")
+                {toolPosts
                   .slice(0, 5)
                   .map((t) => (
                     <li key={t.id}>
