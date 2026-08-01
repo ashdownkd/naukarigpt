@@ -21,7 +21,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CATEGORIES, SITE } from "@/data/site";
-import { searchPosts } from "@/data/demo";
+import { searchPosts } from "@/lib/search";
+import { useAllPosts } from "@/lib/useAllPosts";
 
 const NAV_ITEMS = CATEGORIES.slice(0, 6);
 const MORE_ITEMS = CATEGORIES.slice(6);
@@ -31,7 +32,8 @@ export default function TopNav() {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
-  const results = useMemo(() => searchPosts(q, 6), [q]);
+  const posts = useAllPosts();
+  const results = useMemo(() => searchPosts(posts, q, 6), [posts, q]);
 
   useEffect(() => {
     setOpen(false);
