@@ -60,33 +60,3 @@ export async function getTrendingPosts(limit = 6) {
   const posts = await getAllPosts();
   return [...posts].sort((a, b) => (a.vacancies < b.vacancies ? 1 : -1)).slice(0, limit);
 }
-
-// ---- Filter helpers (unchanged logic from demo.js, operates on whatever
-// array of posts you already fetched — no network call here) --------------
-
-export const FILTER_OPTIONS = {
-  state: [
-    "All India", "Delhi", "Uttar Pradesh", "Rajasthan", "Bihar", "Madhya Pradesh",
-    "Maharashtra", "Karnataka", "Tamil Nadu", "West Bengal", "Gujarat", "Haryana",
-    "Punjab", "Odisha", "Kerala", "Assam", "Telangana", "Andhra Pradesh",
-  ],
-  department: [
-    "SSC", "UPSC", "Railway", "Banking", "Insurance", "Police / Defence", "Teaching",
-    "Medical", "Engineering", "Science & Research", "Management", "Law", "Private / IT",
-    "Finance / Loans", "School", "General",
-  ],
-  qualification: ["10th Pass", "12th Pass", "Diploma / ITI", "Graduate", "Post Graduate", "Any"],
-};
-
-export const filterPosts = (posts, filters = {}) => {
-  const norm = (v) => (v == null || v === "all" ? "" : String(v));
-  const st = norm(filters.state);
-  const dept = norm(filters.department);
-  const qual = norm(filters.qualification);
-  return posts.filter((p) => {
-    if (st && p.state !== st) return false;
-    if (dept && p.department !== dept) return false;
-    if (qual && p.qualification !== qual) return false;
-    return true;
-  });
-};
