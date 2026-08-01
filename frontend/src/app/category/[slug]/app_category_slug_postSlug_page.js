@@ -12,8 +12,10 @@ import PostCard from "@/components/site/PostCard";
 import AdSlot from "@/components/site/AdSlot";
 import { Calendar, MapPin, Clock } from "lucide-react";
 
-// Posts now come from the live backend, so pages render on-demand per
-// request instead of being pre-built from a static list at build time.
+// Posts now come from the live backend — always render fresh, never
+// pre-build a frozen snapshot at build time.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const dynamicParams = true;
 
 export async function generateMetadata({ params }) {
