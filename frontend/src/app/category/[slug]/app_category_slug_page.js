@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
-import { CATEGORIES, getCategoryBySlug } from "@/data/site";
+import { getCategoryBySlug } from "@/data/site";
 import { getPostsByCategory } from "@/lib/posts";
 import CategoryListClient from "@/components/site/CategoryListClient";
 import AdSlot from "@/components/site/AdSlot";
@@ -10,9 +10,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-export async function generateStaticParams() {
-  return CATEGORIES.map((c) => ({ slug: c.slug }));
-}
+// Posts now come from the live backend — always render fresh, never
+// pre-build a frozen snapshot at build time.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata({ params }) {
   const cat = getCategoryBySlug(params.slug);
