@@ -22,6 +22,11 @@ export const metadata = {
     "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys — curated daily on NaukariGPT.",
 };
 
+// Posts now come from the live backend — always render fresh, never
+// pre-build a frozen snapshot at build time.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Home() {
   const [latest, featured, trending, toolPosts, allPosts] = await Promise.all([
     getLatestPosts(12),
