@@ -29,7 +29,6 @@ export default function ArticleJsonLd({ post }) {
         hiringOrganization: {
           "@type": "Organization",
           name: post.org,
-          sameAs: SITE.url,
         },
         employmentType: "FULL_TIME",
         jobLocation: {
@@ -37,6 +36,7 @@ export default function ArticleJsonLd({ post }) {
           address: {
             "@type": "PostalAddress",
             addressLocality: post.location || "All India",
+            addressRegion: post.state || post.location || "All India",
             addressCountry: "IN",
           },
         },
