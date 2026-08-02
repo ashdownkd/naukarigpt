@@ -4,6 +4,7 @@ import { SITE } from "@/data/site";
 export const metadata = {
   title: "Terms & Conditions",
   description: `Terms and Conditions for using ${SITE.name}.`,
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {
