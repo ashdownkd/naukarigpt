@@ -6,6 +6,7 @@ import Link from "next/link";
 export const metadata = {
   title: "About Us",
   description: `Learn more about ${SITE.name} — India's premium hub for jobs, results and admit cards.`,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
