@@ -6,6 +6,7 @@ import OrganizationJsonLd from "@/components/site/OrganizationJsonLd";
 import AdSenseScript from "@/components/site/AdSenseScript";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -85,6 +86,7 @@ export default function RootLayout({ children }) {
         <SiteChrome>{children}</SiteChrome>
         <Toaster theme="dark" richColors position="top-right" />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
