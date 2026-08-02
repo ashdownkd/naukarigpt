@@ -4,6 +4,7 @@ import { SITE } from "@/data/site";
 export const metadata = {
   title: "Disclaimer",
   description: `Disclaimer for ${SITE.name}. All information is provided for reference only.`,
+  alternates: { canonical: "/disclaimer" },
 };
 
 export default function DisclaimerPage() {
