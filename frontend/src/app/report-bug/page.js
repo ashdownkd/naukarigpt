@@ -6,6 +6,7 @@ import { Bug } from "lucide-react";
 export const metadata = {
   title: "Report a Bug",
   description: `Found something broken on ${SITE.name}? Let us know and we'll fix it fast.`,
+  alternates: { canonical: "/report-bug" },
 };
 
 export default function ReportBugPage() {
