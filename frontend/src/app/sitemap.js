@@ -1,9 +1,15 @@
 import { SITE, CATEGORIES } from "@/data/site";
-import { POSTS } from "@/data/demo";
+import { getAllPosts } from "@/lib/posts";
 
-export default function sitemap() {
+// Always regenerate on request — otherwise Vercel can freeze this route's
+// output from whatever build first generated it.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default async function sitemap() {
   const base = SITE.url;
   const now = new Date().toISOString();
+  const POSTS = await getAllPosts();
   const routes = [
     { url: `${base}/`, lastModified: now, priority: 1.0 },
     { url: `${base}/about`, lastModified: now, priority: 0.5 },
