@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCategoryBySlug, SITE } from "@/data/site";
-import { getPostBySlug, getPostsByCategory } from "@/data/demo";
-import { POSTS } from "@/data/demo";
+import { getPostBySlug, getPostsByCategory } from "@/lib/posts";
 import Breadcrumb from "@/components/site/Breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import ApplyCTA from "@/components/site/ApplyCTA";
@@ -13,12 +12,14 @@ import PostCard from "@/components/site/PostCard";
 import AdSlot from "@/components/site/AdSlot";
 import { Calendar, MapPin, Clock } from "lucide-react";
 
-export async function generateStaticParams() {
-  return POSTS.map((p) => ({ slug: p.category, postSlug: p.slug }));
-}
+// Posts now come from the live backend — always render fresh, never
+// pre-build a frozen snapshot at build time.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }) {
-  const post = getPostBySlug(params.slug, params.postSlug);
+  const post = await getPostBySlug(params.slug, params.postSlug);
   if (!post) return {};
   return {
     title: post.title,
@@ -39,11 +40,12 @@ const fmtDate = (iso) =>
     year: "numeric",
   });
 
-export default function PostPage({ params }) {
-  const post = getPostBySlug(params.slug, params.postSlug);
+export default async function PostPage({ params }) {
+  const post = await getPostBySlug(params.slug, params.postSlug);
   if (!post) notFound();
   const cat = getCategoryBySlug(post.category);
-  const related = getPostsByCategory(post.category)
+  const categoryPosts = await getPostsByCategory(post.category);
+  const related = categoryPosts
     .filter((p) => p.slug !== post.slug)
     .slice(0, 4);
 
