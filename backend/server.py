@@ -173,11 +173,6 @@ class JobPost(BaseModel):
     importantDates: List[ImportantDate] = []
     featured: bool = False
     isNew: bool = False
-    salaryMin: Optional[int] = None
-    salaryMax: Optional[int] = None
-    salaryUnit: str = "MONTH"
-    streetAddress: Optional[str] = None
-    postalCode: Optional[str] = None
 
 
 class JobPostCreate(BaseModel):
@@ -202,11 +197,9 @@ class JobPostCreate(BaseModel):
     ageLimit: str = "18 – 32 years (age relaxation as per rules)"
     importantDates: Optional[List[ImportantDate]] = None
     featured: bool = False
-    salaryMin: Optional[int] = None
-    salaryMax: Optional[int] = None
-    salaryUnit: str = "MONTH"
-    streetAddress: Optional[str] = None
-    postalCode: Optional[str] = None
+
+
+class JobPostUpdate(BaseModel):
     slug: Optional[str] = None
     category: Optional[str] = None
     title: Optional[str] = None
@@ -225,11 +218,9 @@ class JobPostCreate(BaseModel):
     ageLimit: Optional[str] = None
     importantDates: Optional[List[ImportantDate]] = None
     featured: Optional[bool] = None
-    salaryMin: Optional[int] = None
-    salaryMax: Optional[int] = None
-    salaryUnit: Optional[str] = None
-    streetAddress: Optional[str] = None
-    postalCode: Optional[str] = None
+
+
+def _build_job(input: JobPostCreate) -> JobPost:
     now = datetime.now(timezone.utc)
     last_date = input.lastDate or (now + timedelta(days=21))
     tags = input.tags or [input.category]
@@ -263,11 +254,6 @@ class JobPostCreate(BaseModel):
         ],
         featured=input.featured,
         isNew=True,
-        salaryMin=input.salaryMin,
-        salaryMax=input.salaryMax,
-        salaryUnit=input.salaryUnit,
-        streetAddress=input.streetAddress,
-        postalCode=input.postalCode,
     )
 
 
