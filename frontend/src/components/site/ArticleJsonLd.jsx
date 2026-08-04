@@ -35,27 +35,11 @@ export default function ArticleJsonLd({ post }) {
           "@type": "Place",
           address: {
             "@type": "PostalAddress",
-            ...(post.streetAddress ? { streetAddress: post.streetAddress } : {}),
             addressLocality: post.location || "All India",
             addressRegion: post.state || post.location || "All India",
-            ...(post.postalCode ? { postalCode: post.postalCode } : {}),
             addressCountry: "IN",
           },
         },
-        ...(post.salaryMin && post.salaryMax
-          ? {
-              baseSalary: {
-                "@type": "MonetaryAmount",
-                currency: "INR",
-                value: {
-                  "@type": "QuantitativeValue",
-                  minValue: post.salaryMin,
-                  maxValue: post.salaryMax,
-                  unitText: post.salaryUnit || "MONTH",
-                },
-              },
-            }
-          : {}),
         directApply: false,
         url,
       }
