@@ -93,14 +93,72 @@ export default async function PostPage({ params }) {
             <span>By {post.org}</span>
           </div>
 
-          <div className="mt-6 grid gap-3 rounded-[var(--radius-lg)] card-elev p-5 sm:grid-cols-2">
-            <InfoRow label="Eligibility" value={post.eligibility} />
-            <InfoRow label="Age Limit" value={post.ageLimit} />
-            <InfoRow label="Application Fee" value={post.fee} />
-            {post.vacancies > 0 && (
-              <InfoRow label="Total Vacancies" value={post.vacancies.toLocaleString("en-IN")} />
-            )}
-          </div>
+          {(post.examName || post.eligibility) && (
+            <div className="mt-6 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Exam / Eligibility
+              </p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {post.examName && <InfoRow label="Exam Name" value={post.examName} />}
+                {post.eligibility && <InfoRow label="Eligibility Criteria" value={post.eligibility} />}
+              </div>
+            </div>
+          )}
+
+          {(post.feeGeneral || post.feeScSt || post.feePh || post.fee) && (
+            <div className="mt-6 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Application Fee
+              </p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {post.feeGeneral && <InfoRow label="Fee — General/OBC" value={post.feeGeneral} />}
+                {post.feeScSt && <InfoRow label="Fee — SC/ST" value={post.feeScSt} />}
+                {post.feePh && <InfoRow label="Fee — PH (Differently-abled)" value={post.feePh} />}
+                {!post.feeGeneral && !post.feeScSt && !post.feePh && post.fee && (
+                  <InfoRow label="Application Fee" value={post.fee} />
+                )}
+                {post.feePaymentModes?.length > 0 && (
+                  <InfoRow label="Payment Modes" value={post.feePaymentModes.join(", ")} />
+                )}
+              </div>
+            </div>
+          )}
+
+          {(post.ageMin || post.ageMax || post.ageRelaxationNote || post.ageLimit) && (
+            <div className="mt-6 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Age Limit
+              </p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {post.ageMin != null && <InfoRow label="Minimum Age" value={`${post.ageMin} years`} />}
+                {post.ageMax != null && <InfoRow label="Maximum Age" value={`${post.ageMax} years`} />}
+                {!post.ageMin && !post.ageMax && post.ageLimit && (
+                  <InfoRow label="Age Limit" value={post.ageLimit} />
+                )}
+                {post.ageRelaxationNote && (
+                  <InfoRow label="Age Relaxation" value={post.ageRelaxationNote} />
+                )}
+                {post.ageAsOnDate && <InfoRow label="As On" value={post.ageAsOnDate} />}
+              </div>
+            </div>
+          )}
+
+          {(post.vacancies > 0 || post.selectionProcess) && (
+            <div className="mt-6 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Vacancy &amp; Selection
+              </p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <InfoRow
+                  label="Total Post / Vacancies"
+                  value={post.vacancies > 0 ? post.vacancies.toLocaleString("en-IN") : "N/A"}
+                />
+                {post.selectionProcess && (
+                  <InfoRow label="Mode of Selection" value={post.selectionProcess} />
+                )}
+              </div>
+            </div>
+          )}
 
           {post.importantDates?.length > 0 && (
             <div className="mt-6 rounded-[var(--radius-lg)] card-elev overflow-hidden">
@@ -134,6 +192,32 @@ export default async function PostPage({ params }) {
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
+          {(post.applyLink || post.officialLink || post.resultLink || post.officialWebsite || post.whatsappLink || post.telegramLink) && (
+            <div className="mt-8 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Important Links
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {post.applyLink && (
+                  <LinkRow label="Apply Online" href={post.applyLink} />
+                )}
+                {post.officialLink && (
+                  <LinkRow label="Official Notification (PDF)" href={post.officialLink} />
+                )}
+                {post.resultLink && <LinkRow label="Check Result" href={post.resultLink} />}
+                {post.officialWebsite && (
+                  <LinkRow label="Official Website" href={post.officialWebsite} />
+                )}
+                {post.whatsappLink && (
+                  <LinkRow label="WhatsApp Channel" href={post.whatsappLink} />
+                )}
+                {post.telegramLink && (
+                  <LinkRow label="Telegram Channel" href={post.telegramLink} />
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="mt-8">
             <AdSlot slot="inArticle" label="Advertisement" />
           </div>
@@ -153,7 +237,7 @@ export default async function PostPage({ params }) {
           {related.length > 0 && (
             <div className="mt-10">
               <h2 className="font-display text-xl sm:text-2xl font-semibold tracking-tight">
-                More in {cat.title}
+                You May Also Check
               </h2>
               <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
                 {related.map((p) => (
@@ -185,5 +269,19 @@ function InfoRow({ label, value }) {
       </p>
       <p className="mt-1 text-sm">{value}</p>
     </div>
+  );
+}
+
+function LinkRow({ label, href }) {
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-between rounded-md border border-border/70 bg-background/40 px-3 py-2 text-sm hover:border-primary/40"
+    >
+      <span>{label}</span>
+      <span className="text-muted-foreground">↗</span>
+    </Link>
   );
 }
