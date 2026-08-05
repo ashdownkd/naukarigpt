@@ -132,11 +132,16 @@ def default_important_dates(date: datetime, last_date: datetime) -> List[dict]:
     release = date
     apply_start = date + timedelta(days=1)
     apply_last = last_date
-    exam_date = apply_last + timedelta(days=25)
+    fee_last = last_date
+    correction_last = last_date + timedelta(days=5)
+    exam_date = last_date + timedelta(days=25)
+    admit_card = exam_date - timedelta(days=10)
     return [
-        {"label": "Notification Release", "value": release.date().isoformat()},
-        {"label": "Online Apply Start", "value": apply_start.date().isoformat()},
-        {"label": "Online Apply Last Date", "value": apply_last.date().isoformat()},
+        {"label": "Application Start", "value": apply_start.date().isoformat()},
+        {"label": "Last Date for Apply Online", "value": apply_last.date().isoformat()},
+        {"label": "Last Date to Pay Exam Fee", "value": fee_last.date().isoformat()},
+        {"label": "Last Date for Correction", "value": correction_last.date().isoformat()},
+        {"label": "Admit Card Release", "value": admit_card.date().isoformat()},
         {"label": "Exam Date", "value": exam_date.date().isoformat()},
     ]
 
@@ -173,6 +178,25 @@ class JobPost(BaseModel):
     importantDates: List[ImportantDate] = []
     featured: bool = False
     isNew: bool = False
+    salaryMin: Optional[int] = None
+    salaryMax: Optional[int] = None
+    salaryUnit: str = "MONTH"
+    streetAddress: Optional[str] = None
+    postalCode: Optional[str] = None
+    examName: str = ""
+    selectionProcess: str = ""
+    feeGeneral: Optional[str] = None
+    feeScSt: Optional[str] = None
+    feePh: Optional[str] = None
+    feePaymentModes: List[str] = []
+    ageMin: Optional[int] = None
+    ageMax: Optional[int] = None
+    ageRelaxationNote: Optional[str] = None
+    ageAsOnDate: Optional[str] = None
+    officialWebsite: Optional[str] = None
+    resultLink: Optional[str] = None
+    whatsappLink: Optional[str] = None
+    telegramLink: Optional[str] = None
 
 
 class JobPostCreate(BaseModel):
@@ -197,6 +221,25 @@ class JobPostCreate(BaseModel):
     ageLimit: str = "18 – 32 years (age relaxation as per rules)"
     importantDates: Optional[List[ImportantDate]] = None
     featured: bool = False
+    salaryMin: Optional[int] = None
+    salaryMax: Optional[int] = None
+    salaryUnit: str = "MONTH"
+    streetAddress: Optional[str] = None
+    postalCode: Optional[str] = None
+    examName: str = ""
+    selectionProcess: str = ""
+    feeGeneral: Optional[str] = None
+    feeScSt: Optional[str] = None
+    feePh: Optional[str] = None
+    feePaymentModes: List[str] = []
+    ageMin: Optional[int] = None
+    ageMax: Optional[int] = None
+    ageRelaxationNote: Optional[str] = None
+    ageAsOnDate: Optional[str] = None
+    officialWebsite: Optional[str] = None
+    resultLink: Optional[str] = None
+    whatsappLink: Optional[str] = None
+    telegramLink: Optional[str] = None
 
 
 class JobPostUpdate(BaseModel):
@@ -218,6 +261,25 @@ class JobPostUpdate(BaseModel):
     ageLimit: Optional[str] = None
     importantDates: Optional[List[ImportantDate]] = None
     featured: Optional[bool] = None
+    salaryMin: Optional[int] = None
+    salaryMax: Optional[int] = None
+    salaryUnit: Optional[str] = None
+    streetAddress: Optional[str] = None
+    postalCode: Optional[str] = None
+    examName: Optional[str] = None
+    selectionProcess: Optional[str] = None
+    feeGeneral: Optional[str] = None
+    feeScSt: Optional[str] = None
+    feePh: Optional[str] = None
+    feePaymentModes: Optional[List[str]] = None
+    ageMin: Optional[int] = None
+    ageMax: Optional[int] = None
+    ageRelaxationNote: Optional[str] = None
+    ageAsOnDate: Optional[str] = None
+    officialWebsite: Optional[str] = None
+    resultLink: Optional[str] = None
+    whatsappLink: Optional[str] = None
+    telegramLink: Optional[str] = None
 
 
 def _build_job(input: JobPostCreate) -> JobPost:
@@ -254,7 +316,28 @@ def _build_job(input: JobPostCreate) -> JobPost:
         ],
         featured=input.featured,
         isNew=True,
+        salaryMin=input.salaryMin,
+        salaryMax=input.salaryMax,
+        salaryUnit=input.salaryUnit,
+        streetAddress=input.streetAddress,
+        postalCode=input.postalCode,
+        examName=input.examName,
+        selectionProcess=input.selectionProcess,
+        feeGeneral=input.feeGeneral,
+        feeScSt=input.feeScSt,
+        feePh=input.feePh,
+        feePaymentModes=input.feePaymentModes,
+        ageMin=input.ageMin,
+        ageMax=input.ageMax,
+        ageRelaxationNote=input.ageRelaxationNote,
+        ageAsOnDate=input.ageAsOnDate,
+        officialWebsite=input.officialWebsite,
+        resultLink=input.resultLink,
+        whatsappLink=input.whatsappLink,
+        telegramLink=input.telegramLink,
     )
+
+
 
 
 def _to_doc(job: JobPost) -> dict:
