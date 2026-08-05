@@ -19,7 +19,7 @@ import {
 export const metadata = {
   title: "Latest Jobs, Results & Admit Cards — NaukariGPT",
   description:
-    "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys — curated daily on NaukariGPT.",
+    "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys curated daily on NaukariGPT.",
 };
 
 // Posts now come from the live backend — always render fresh, never
