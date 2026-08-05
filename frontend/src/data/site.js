@@ -8,7 +8,7 @@ export const SITE = {
   telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL || "https://t.me/naukarigpt",
   whatsapp:
     process.env.NEXT_PUBLIC_WHATSAPP_URL ||
-    "https://whatsapp.com/channel/naukarigpt",
+    "https://whatsapp.com/channel/0029VbD0hmB1t90ZOB0nLE3B",
   twitter: "https://twitter.com/naukarigpt",
   facebook: "https://facebook.com/naukarigpt",
   email: "contact@naukarigpt.com",
