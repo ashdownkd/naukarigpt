@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -13,9 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Send, MessageCircle, Bell } from "lucide-react";
 import { SITE } from "@/data/site";
 
-const DELAY_MS = 12000;
+const DELAY_MS = 15000; // show after the visitor has stayed 15 seconds
+const COOLDOWN_MS = 24 * 60 * 60 * 1000; // don't nag again for 24h after a dismiss
 const SUBSCRIBED_KEY = "ngpt_subscribed";
-const DISMISSED_KEY = "ngpt_subscribe_dismissed";
+const DISMISSED_AT_KEY = "ngpt_subscribe_dismissed_at";
 
 const readLS = (k) => {
   if (typeof window === "undefined") return null;
@@ -31,65 +31,35 @@ const writeLS = (k, v) => {
     window.localStorage.setItem(k, v);
   } catch {}
 };
-const removeLS = (k) => {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.removeItem(k);
-  } catch {}
-};
 
 const isSubscribed = () => readLS(SUBSCRIBED_KEY) === "true";
-const getDismissed = () => readLS(DISMISSED_KEY) === "true";
+
+const isInCooldown = () => {
+  const raw = readLS(DISMISSED_AT_KEY);
+  if (!raw) return false;
+  const dismissedAt = Number(raw);
+  if (Number.isNaN(dismissedAt)) return false;
+  return Date.now() - dismissedAt < COOLDOWN_MS;
+};
 
 export default function SubscribeModal() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [initialized, setInitialized] = useState(false);
 
-  // Initial timer. Runs once per full page load.
-  // Rules:
-  // - Subscribed: never show.
-  // - Previously dismissed (hard-reload to a new page): show quickly on this
-  //   new page and clear the dismissed flag.
-  // - Fresh visitor: show 12 seconds after page load.
+  // Runs once per full page load only — does NOT re-trigger on client-side
+  // route changes, so it no longer nags on every page you click to.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (isSubscribed()) {
-      setInitialized(true);
-      return;
-    }
-    if (getDismissed()) {
-      removeLS(DISMISSED_KEY);
-      const t = setTimeout(() => {
-        if (!isSubscribed()) setOpen(true);
-        setInitialized(true);
-      }, 800);
-      return () => clearTimeout(t);
-    }
+    if (isSubscribed()) return;
+    if (isInCooldown()) return;
+
     const t = setTimeout(() => {
-      if (!isSubscribed()) setOpen(true);
-      setInitialized(true);
+      if (!isSubscribed() && !isInCooldown()) setOpen(true);
     }, DELAY_MS);
     return () => clearTimeout(t);
   }, []);
 
-  // On client-side route change (after initialization): if user had
-  // dismissed the modal on the previous page, show again on the new page.
-  useEffect(() => {
-    if (!initialized) return;
-    if (typeof window === "undefined") return;
-    if (isSubscribed()) return;
-    if (getDismissed()) {
-      // Consume the dismissed flag so we don't loop
-      removeLS(DISMISSED_KEY);
-      const t = setTimeout(() => setOpen(true), 600);
-      return () => clearTimeout(t);
-    }
-  }, [pathname, initialized]);
-
   const handleSubscribe = (url) => {
     writeLS(SUBSCRIBED_KEY, "true");
-    removeLS(DISMISSED_KEY);
     if (typeof window !== "undefined") {
       window.open(url, "_blank", "noopener,noreferrer");
     }
@@ -98,7 +68,7 @@ export default function SubscribeModal() {
 
   const handleOpenChange = (v) => {
     if (!v && !isSubscribed()) {
-      writeLS(DISMISSED_KEY, "true");
+      writeLS(DISMISSED_AT_KEY, String(Date.now()));
     }
     setOpen(v);
   };
