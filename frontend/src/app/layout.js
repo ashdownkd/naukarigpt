@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import Script from 'next/script';
 import { SITE } from "@/data/site";
 import SiteChrome from "@/components/site/SiteChrome";
 import OrganizationJsonLd from "@/components/site/OrganizationJsonLd";
@@ -12,12 +13,14 @@ const inter = Inter({
   variable: "--font-body",
   display: "swap",
 });
+
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
+
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -78,6 +81,9 @@ export default function RootLayout({ children }) {
       className={`dark ${inter.variable} ${spaceGrotesk.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <Script src='https://push.aplu.io/push-notify.js' strategy="beforeInteractive" />
+      </head>
       <body className="antialiased">
         <div className="noise-overlay" aria-hidden="true" />
         <OrganizationJsonLd />
