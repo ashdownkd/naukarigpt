@@ -82,6 +82,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        <meta name="google-adsense-account" content="ca-pub-2072593502386779">
         <Script src='https://push.aplu.io/push-notify.js' strategy="beforeInteractive" />
       </head>
       <body className="antialiased">
