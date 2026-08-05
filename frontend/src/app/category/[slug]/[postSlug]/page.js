@@ -49,6 +49,14 @@ export default async function PostPage({ params }) {
     .filter((p) => p.slug !== post.slug)
     .slice(0, 4);
 
+  const hasLinks =
+    post.applyLink ||
+    post.officialLink ||
+    post.resultLink ||
+    post.officialWebsite ||
+    post.whatsappLink ||
+    post.telegramLink;
+
   return (
     <section className="container-wide py-8 pb-24 sm:py-10 sm:pb-16">
       <ArticleJsonLd post={post} />
@@ -71,15 +79,12 @@ export default async function PostPage({ params }) {
                 New
               </Badge>
             )}
-            {(post.tags || []).slice(0, 3).map((t) => (
-              <Badge key={t} variant="outline" className="text-[10px]">
-                #{t}
-              </Badge>
-            ))}
           </div>
+
           <h1 className="font-display mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-balance">
             {post.title}
           </h1>
+
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-muted-foreground">
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3" /> Posted {fmtDate(post.date)}
@@ -115,7 +120,7 @@ export default async function PostPage({ params }) {
                 {post.feeScSt && <InfoRow label="Fee — SC/ST" value={post.feeScSt} />}
                 {post.feePh && <InfoRow label="Fee — PH (Differently-abled)" value={post.feePh} />}
                 {!post.feeGeneral && !post.feeScSt && !post.feePh && post.fee && (
-                  <p className="text-sm">{post.fee}</p>
+                  <p className="text-sm sm:col-span-2">{post.fee}</p>
                 )}
                 {post.feePaymentModes?.length > 0 && (
                   <InfoRow label="Payment Modes" value={post.feePaymentModes.join(", ")} />
@@ -133,7 +138,7 @@ export default async function PostPage({ params }) {
                 {post.ageMin != null && <InfoRow label="Minimum Age" value={`${post.ageMin} years`} />}
                 {post.ageMax != null && <InfoRow label="Maximum Age" value={`${post.ageMax} years`} />}
                 {!post.ageMin && !post.ageMax && post.ageLimit && (
-                  <p className="text-sm">{post.ageLimit}</p>
+                  <p className="text-sm sm:col-span-2">{post.ageLimit}</p>
                 )}
                 {post.ageRelaxationNote && (
                   <InfoRow label="Age Relaxation" value={post.ageRelaxationNote} />
@@ -172,9 +177,7 @@ export default async function PostPage({ params }) {
                   {post.importantDates.map((d, i) => (
                     <tr
                       key={i}
-                      className={
-                        i % 2 === 0 ? "bg-transparent" : "bg-background/40"
-                      }
+                      className={i % 2 === 0 ? "bg-transparent" : "bg-background/40"}
                     >
                       <td className="px-5 py-2.5 text-muted-foreground">{d.label}</td>
                       <td className="px-5 py-2.5 font-mono text-right sm:text-left">
@@ -191,32 +194,6 @@ export default async function PostPage({ params }) {
             className="prose-post mt-8"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
-
-          {(post.applyLink || post.officialLink || post.resultLink || post.officialWebsite || post.whatsappLink || post.telegramLink) && (
-            <div className="mt-8 rounded-[var(--radius-lg)] card-elev p-5">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Important Links
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {post.applyLink && (
-                  <LinkRow label="Apply Online" href={post.applyLink} />
-                )}
-                {post.officialLink && (
-                  <LinkRow label="Official Notification (PDF)" href={post.officialLink} />
-                )}
-                {post.resultLink && <LinkRow label="Check Result" href={post.resultLink} />}
-                {post.officialWebsite && (
-                  <LinkRow label="Official Website" href={post.officialWebsite} />
-                )}
-                {post.whatsappLink && (
-                  <LinkRow label="WhatsApp Channel" href={post.whatsappLink} />
-                )}
-                {post.telegramLink && (
-                  <LinkRow label="Telegram Channel" href={post.telegramLink} />
-                )}
-              </div>
-            </div>
-          )}
 
           <div className="mt-8">
             <AdSlot slot="inArticle" label="Advertisement" />
@@ -243,6 +220,30 @@ export default async function PostPage({ params }) {
                 {related.map((p) => (
                   <PostCard key={p.id} post={p} />
                 ))}
+              </div>
+            </div>
+          )}
+
+          {hasLinks && (
+            <div className="mt-10 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Important Links
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {post.applyLink && <LinkRow label="Apply Online" href={post.applyLink} />}
+                {post.officialLink && (
+                  <LinkRow label="Official Notification (PDF)" href={post.officialLink} />
+                )}
+                {post.resultLink && <LinkRow label="Check Result" href={post.resultLink} />}
+                {post.officialWebsite && (
+                  <LinkRow label="Official Website" href={post.officialWebsite} />
+                )}
+                {post.whatsappLink && (
+                  <LinkRow label="WhatsApp Channel" href={post.whatsappLink} />
+                )}
+                {post.telegramLink && (
+                  <LinkRow label="Telegram Channel" href={post.telegramLink} />
+                )}
               </div>
             </div>
           )}
