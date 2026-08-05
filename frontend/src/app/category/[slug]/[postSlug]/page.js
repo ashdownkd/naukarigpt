@@ -115,7 +115,7 @@ export default async function PostPage({ params }) {
                 {post.feeScSt && <InfoRow label="Fee — SC/ST" value={post.feeScSt} />}
                 {post.feePh && <InfoRow label="Fee — PH (Differently-abled)" value={post.feePh} />}
                 {!post.feeGeneral && !post.feeScSt && !post.feePh && post.fee && (
-                  <InfoRow label="Application Fee" value={post.fee} />
+                  <p className="text-sm">{post.fee}</p>
                 )}
                 {post.feePaymentModes?.length > 0 && (
                   <InfoRow label="Payment Modes" value={post.feePaymentModes.join(", ")} />
@@ -133,7 +133,7 @@ export default async function PostPage({ params }) {
                 {post.ageMin != null && <InfoRow label="Minimum Age" value={`${post.ageMin} years`} />}
                 {post.ageMax != null && <InfoRow label="Maximum Age" value={`${post.ageMax} years`} />}
                 {!post.ageMin && !post.ageMax && post.ageLimit && (
-                  <InfoRow label="Age Limit" value={post.ageLimit} />
+                  <p className="text-sm">{post.ageLimit}</p>
                 )}
                 {post.ageRelaxationNote && (
                   <InfoRow label="Age Relaxation" value={post.ageRelaxationNote} />
