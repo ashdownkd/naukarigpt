@@ -195,6 +195,30 @@ export default async function PostPage({ params }) {
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
+          {hasLinks && (
+            <div className="mt-8 rounded-[var(--radius-lg)] card-elev p-5">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                Important Links
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {post.applyLink && <LinkRow label="Apply Online" href={post.applyLink} />}
+                {post.officialLink && (
+                  <LinkRow label="Official Notification (PDF)" href={post.officialLink} />
+                )}
+                {post.resultLink && <LinkRow label="Check Result" href={post.resultLink} />}
+                {post.officialWebsite && (
+                  <LinkRow label="Official Website" href={post.officialWebsite} />
+                )}
+                {post.whatsappLink && (
+                  <LinkRow label="WhatsApp Channel" href={post.whatsappLink} />
+                )}
+                {post.telegramLink && (
+                  <LinkRow label="Telegram Channel" href={post.telegramLink} />
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="mt-8">
             <AdSlot slot="inArticle" label="Advertisement" />
           </div>
@@ -220,30 +244,6 @@ export default async function PostPage({ params }) {
                 {related.map((p) => (
                   <PostCard key={p.id} post={p} />
                 ))}
-              </div>
-            </div>
-          )}
-
-          {hasLinks && (
-            <div className="mt-10 rounded-[var(--radius-lg)] card-elev p-5">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Important Links
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {post.applyLink && <LinkRow label="Apply Online" href={post.applyLink} />}
-                {post.officialLink && (
-                  <LinkRow label="Official Notification (PDF)" href={post.officialLink} />
-                )}
-                {post.resultLink && <LinkRow label="Check Result" href={post.resultLink} />}
-                {post.officialWebsite && (
-                  <LinkRow label="Official Website" href={post.officialWebsite} />
-                )}
-                {post.whatsappLink && (
-                  <LinkRow label="WhatsApp Channel" href={post.whatsappLink} />
-                )}
-                {post.telegramLink && (
-                  <LinkRow label="Telegram Channel" href={post.telegramLink} />
-                )}
               </div>
             </div>
           )}
