@@ -197,9 +197,7 @@ class JobPost(BaseModel):
     resultLink: Optional[str] = None
     whatsappLink: Optional[str] = None
     telegramLink: Optional[str] = None
-
-
-class JobPostCreate(BaseModel):
+    image: Optional[str] = None
     slug: str
     category: str
     title: str
@@ -240,6 +238,7 @@ class JobPostCreate(BaseModel):
     resultLink: Optional[str] = None
     whatsappLink: Optional[str] = None
     telegramLink: Optional[str] = None
+    image: Optional[str] = None
 
 
 class JobPostUpdate(BaseModel):
@@ -280,6 +279,7 @@ class JobPostUpdate(BaseModel):
     resultLink: Optional[str] = None
     whatsappLink: Optional[str] = None
     telegramLink: Optional[str] = None
+    image: Optional[str] = None
 
 
 def _build_job(input: JobPostCreate) -> JobPost:
@@ -335,6 +335,7 @@ def _build_job(input: JobPostCreate) -> JobPost:
         resultLink=input.resultLink,
         whatsappLink=input.whatsappLink,
         telegramLink=input.telegramLink,
+        image=input.image,
     )
 
 
