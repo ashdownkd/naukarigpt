@@ -15,7 +15,7 @@ export const SITE = {
   wpUrl: process.env.NEXT_PUBLIC_WP_URL || "",
   formspree: process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "",
   adsense: {
-    client: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "",
+    client: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-2072593502386779",
     // Optional named slots — if empty we use a default responsive slot.
     slots: {
       inFeed: process.env.NEXT_PUBLIC_ADSENSE_SLOT_INFEED || "",
