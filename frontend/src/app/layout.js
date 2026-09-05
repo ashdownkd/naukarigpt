@@ -82,6 +82,9 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+</script>
         <script
   async
   src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2072593502386779"
@@ -97,6 +100,11 @@ export default function RootLayout({ children }) {
         <GoogleAnalytics />
         <SiteChrome>{children}</SiteChrome>
         <Toaster theme="dark" richColors position="top-right" />
+    
+    <amp-auto-ads type="adsense"
+        data-ad-client="ca-pub-2072593502386779">
+</amp-auto-ads>
+          
       </body>
     </html>
   );
