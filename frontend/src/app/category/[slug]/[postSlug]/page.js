@@ -236,8 +236,8 @@ export default async function PostPage({ params }) {
           </div>
 
           {related.length > 0 && (
-            <div className="mt-10">
-              <h2 className="font-display text-xl sm:text-2xl font-semibold tracking-tight">
+
+            <h2 className="font-display text-xl sm:text-2xl font-semibold tracking-tight">
                 You May Also Check
               </h2>
               <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
