@@ -64,7 +64,7 @@ export default function AdSlot({
         style={{ display: "block" }}
         data-ad-client={client}
         data-ad-slot={configuredSlot}
-        data-ad-format="slot"
+        data-ad-format={format}
         {...(layout ? { "data-ad-layout": layout } : {})}
         data-full-width-responsive={fullWidthResponsive ? "true" : "false"}
       />
