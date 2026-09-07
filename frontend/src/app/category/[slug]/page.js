@@ -4,7 +4,6 @@ import Link from "next/link";
 import { getCategoryBySlug } from "@/data/site";
 import { getPostsByCategory } from "@/lib/posts";
 import CategoryListClient from "@/components/site/CategoryListClient";
-import AdSlot from "@/components/site/AdSlot";
 import Breadcrumb from "@/components/site/Breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
