@@ -65,7 +65,8 @@ export default async function CategoryPage({ params }) {
         </Suspense>
       </div>
 
-    
+    <div className="mt-10">
+</div>
 
       <div className="mt-10 flex items-center justify-between rounded-[var(--radius-lg)] card-elev p-5">
         <div>
