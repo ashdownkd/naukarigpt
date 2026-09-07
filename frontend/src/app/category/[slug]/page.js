@@ -66,7 +66,6 @@ export default async function CategoryPage({ params }) {
       </div>
 
       <div className="mt-10">
-        <AdSlot slot="banner" label="Advertisement" />
       </div>
 
       <div className="mt-10 flex items-center justify-between rounded-[var(--radius-lg)] card-elev p-5">
