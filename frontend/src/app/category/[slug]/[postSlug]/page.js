@@ -220,8 +220,8 @@ export default async function PostPage({ params }) {
           )}
 
           <div className="mt-8">
-
-            </div>
+            <AdSlot slot="inArticle" label="Advertisement" />
+          </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[var(--radius-lg)] card-elev p-5">
             <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -236,8 +236,8 @@ export default async function PostPage({ params }) {
           </div>
 
           {related.length > 0 && (
-
-            <h2 className="font-display text-xl sm:text-2xl font-semibold tracking-tight">
+            <div className="mt-10">
+              <h2 className="font-display text-xl sm:text-2xl font-semibold tracking-tight">
                 You May Also Check
               </h2>
               <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -252,8 +252,8 @@ export default async function PostPage({ params }) {
         <aside className="lg:col-span-4">
           <div className="sticky top-20 space-y-4">
             <ApplyCTA post={post} />
-
-            </div>
+            <AdSlot slot="sidebar" label="Advertisement" />
+          </div>
         </aside>
       </div>
 
