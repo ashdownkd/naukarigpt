@@ -71,8 +71,8 @@ export default async function Home() {
                   <PostCard post={p} />
                   {i === 5 && (
                     <div className="md:col-span-2">
-                      <AdSlot slot="inFeed" label="Sponsored" />
-                    </div>
+
+                   </div>
                   )}
                 </div>
               ))}
@@ -82,7 +82,6 @@ export default async function Home() {
           <div className="space-y-6 lg:col-span-4">
             <TrendingList posts={trending} />
 
-            <AdSlot slot="sidebar" label="Advertisement" />
 
             <aside className="rounded-[var(--radius-lg)] card-elev p-5">
               <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
