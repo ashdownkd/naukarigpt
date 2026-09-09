@@ -165,7 +165,6 @@ export default async function PostPage({ params }) {
         <aside className="lg:col-span-4">
           <div className="sticky top-20 space-y-4">
             <ApplyCTA post={post} />
-            <AdSlot slot="sidebar" label="Advertisement" />
           </div>
         </aside>
       </div>
