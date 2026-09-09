@@ -3,7 +3,6 @@ import CategoryBento from "@/components/site/CategoryBento";
 import PostCard from "@/components/site/PostCard";
 import TrendingList from "@/components/site/TrendingList";
 import Ticker from "@/components/site/Ticker";
-import AdSlot from "@/components/site/AdSlot";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
