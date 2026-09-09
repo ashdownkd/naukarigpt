@@ -9,7 +9,6 @@ import StickyMobileApplyBar from "@/components/site/StickyMobileApplyBar";
 import SocialShareBar from "@/components/site/SocialShareBar";
 import ArticleJsonLd from "@/components/site/ArticleJsonLd";
 import PostCard from "@/components/site/PostCard";
-import AdSlot from "@/components/site/AdSlot";
 import { Calendar, MapPin, Clock } from "lucide-react";
 
 // Posts now come from the live backend — always render fresh, never
