@@ -82,16 +82,13 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-</script>
-        <script
-  async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2072593502386779"
-  crossOrigin="anonymous"
-/>
+        
         <meta name="google-adsense-account" content="ca-pub-2072593502386779" />
+    
         <Script src='https://push.aplu.io/push-notify.js' strategy="beforeInteractive" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2072593502386779"
+     crossorigin="anonymous"></script>
+       
       </head>
       <body className="antialiased">
         <div className="noise-overlay" aria-hidden="true" />
