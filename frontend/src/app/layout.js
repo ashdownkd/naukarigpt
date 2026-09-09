@@ -88,6 +88,10 @@ export default function RootLayout({ children }) {
         <Script src='https://push.aplu.io/push-notify.js' strategy="beforeInteractive" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2072593502386779"
      crossorigin="anonymous"></script>
+
+       <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
        
       </head>
       <body className="antialiased">
