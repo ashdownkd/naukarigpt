@@ -134,7 +134,6 @@ export default async function PostPage({ params }) {
           />
 
           <div className="mt-8">
-            <AdSlot slot="inArticle" label="Advertisement" />
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3 rounded-[var(--radius-lg)] card-elev p-5">
