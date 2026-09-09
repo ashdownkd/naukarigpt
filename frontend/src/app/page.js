@@ -19,13 +19,8 @@ import {
 export const metadata = {
   title: "Latest Jobs, Results & Admit Cards — NaukariGPT",
   description:
-    "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys curated daily on NaukariGPT.",
+    "Latest sarkari jobs, results, admit cards, admissions, scholarships & answer keys — curated daily on NaukariGPT.",
 };
-
-// Posts now come from the live backend — always render fresh, never
-// pre-build a frozen snapshot at build time.
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default async function Home() {
   const [latest, featured, trending, toolPosts, allPosts] = await Promise.all([
@@ -71,8 +66,8 @@ export default async function Home() {
                   <PostCard post={p} />
                   {i === 5 && (
                     <div className="md:col-span-2">
-
-                   </div>
+                      <AdSlot slot="inFeed" label="Sponsored" />
+                    </div>
                   )}
                 </div>
               ))}
@@ -82,6 +77,7 @@ export default async function Home() {
           <div className="space-y-6 lg:col-span-4">
             <TrendingList posts={trending} />
 
+            <AdSlot slot="sidebar" label="Advertisement" />
 
             <aside className="rounded-[var(--radius-lg)] card-elev p-5">
               <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
